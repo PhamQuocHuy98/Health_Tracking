@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health_care/animation/delayanimation.dart';
+import 'package:health_care/src/dashboard/setting/setting_model.dart';
 import 'package:health_care/src/option/done_screen.dart';
 import 'package:health_care/widget/button.dart';
-
+import 'package:hive/hive.dart';
 class WakeUpInfo extends StatefulWidget {
   
   final Function next;
@@ -19,8 +20,8 @@ class WakeUpInfo extends StatefulWidget {
 
 class _WakeUpInfoState extends State<WakeUpInfo> {
   int delayAnimation = 500;
-  DateTime _setDate = DateTime.now();
-
+  DateTime timeWakeup = DateTime.parse('20200600 06:30:00Z');
+  DateTime timeSleep = DateTime.parse('20200600 23:30:00Z');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,32 +93,41 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
-                      child:_buildText('06:00 AM'),
+                      child:_buildText(timeWakeup.hour.toString()+":"+timeWakeup.minute.toString()+" AM"),
                       onTap: (){ 
                         DatePicker.showTime12hPicker(context,
                           showTitleActions: true,
                           onChanged: (time){
-
+                            setState(() {
+                              timeWakeup=time;
+                            });
                           },
-                          onConfirm: (date) {
-                            print('confirm $date');
+                          onConfirm: (time) {
+                            setState(() {
+                              timeWakeup=time;
+                            });
                           }, 
-                          currentTime: DateTime.now(), 
+                          currentTime: timeWakeup, 
                           locale: LocaleType.vi);
                       },
                     ),
                     _buildText(' - '),
                     InkWell(
-                      child:_buildText('10:00 PM'),
+                      child:_buildText(timeSleep.hour.toString()+":"+timeWakeup.minute.toString()+" PM"),
                       onTap: (){ 
                         DatePicker.showTime12hPicker(context,
                           showTitleActions: true,
                           onChanged: (time){
+                            setState(() {
+                              timeSleep=time;
+                            });
                           },
-                          onConfirm: (date) {
-                            print('confirm $date');
+                          onConfirm: (time) {
+                            setState(() {
+                              timeSleep=time;
+                            });
                           }, 
-                          currentTime: DateTime.now(), 
+                          currentTime: timeSleep, 
                           locale: LocaleType.vi);
                       },
                     ),
@@ -141,6 +151,15 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
                     title: 'Tiếp tục',
                     color: Colors.white,
                     onTap: (){
+                      SettingModel setting = 
+                      SettingModel(
+                        false, 
+                        false, 
+                        timeWakeup.hour.toString()+":"+timeWakeup.minute.toString(), 
+                        timeSleep.hour.toString()+":"+timeWakeup.minute.toString(),
+                        3000
+                      );
+                      Hive.box<SettingModel>('dbSetting')..add(setting);
                       Navigator.push(context, MaterialPageRoute(builder: (_)=>DoneNotifiScreen()));
                     },
                   ),

@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,10 +29,18 @@ dependencies:
   percent_indicator: ^2.1.1+1
   numberpicker: ^1.2.0
   flutter_local_notifications: ^1.4.0
+  hive: ^1.4.1+1
+  hive_flutter: ^0.3.0+2
+  rxdart: ^0.23.1
+  path_provider: ^1.6.5
+  
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^0.5.1
+  build_runner:   
 
 
 # For information on the generic Dart part of this file, see the

@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_care/animation/delayanimation.dart';
 import 'package:health_care/src/dashboard/dashboard_screen.dart';
+import 'package:health_care/src/dashboard/setting/setting_model.dart';
 import 'package:health_care/utils/images.dart';
 import 'package:health_care/widget/button.dart';
+import 'package:hive/hive.dart';
 
 class DoneNotifiScreen extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class DoneNotifiScreen extends StatefulWidget {
 
 class _DoneNotifiScreenState extends State<DoneNotifiScreen> {
   int delayedAmount=500;
+  bool valueSwitch =false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +67,12 @@ class _DoneNotifiScreenState extends State<DoneNotifiScreen> {
                 widget: Transform.scale(
                 scale: 1.5,
                 child: CupertinoSwitch(
-                  value: false, 
-                  onChanged: (vl){},
+                  value: valueSwitch, 
+                  onChanged: (vl){
+                    setState(() {
+                      valueSwitch=vl;
+                    });
+                  },
                   activeColor: Colors.red,
                   
                 ),
@@ -85,6 +92,11 @@ class _DoneNotifiScreenState extends State<DoneNotifiScreen> {
                   title: 'Xong',
                   color: Colors.white,
                   onTap: (){
+                    var box = Hive.box<SettingModel>('dbSetting');
+                    SettingModel setting;
+                    setting=box.getAt(0);
+                    setting.acceptNoti=valueSwitch;
+                    Hive.box<SettingModel>('dbSetting')..putAt(0,setting);
                     Navigator.push(context, MaterialPageRoute(builder: (_)=> DashBoardScreen(
 
                     )));
