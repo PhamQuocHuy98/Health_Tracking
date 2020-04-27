@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>106280036764-8hkdolopsvfblin0sk80rcift24b9ebs.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.106280036764-8hkdolopsvfblin0sk80rcift24b9ebs</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>106280036764-v3o2h8lk6aj4fmvmacigmj1gkgfqhjku.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBEa5d5vKVgXUh93ha5JJujHrFc-Ozqs6o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>106280036764</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.healthCare</string>
+	<key>PROJECT_ID</key>
+	<string>healthtracking-75032</string>
+	<key>STORAGE_BUCKET</key>
+	<string>healthtracking-75032.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:106280036764:ios:8bf50b6b59837123020059</string>
+	<key>DATABASE_URL</key>
+	<string>https://healthtracking-75032.firebaseio.com</string>
+</dict>
+</plist>

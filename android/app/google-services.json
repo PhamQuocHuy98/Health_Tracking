@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "106280036764",
+    "firebase_url": "https://healthtracking-75032.firebaseio.com",
+    "project_id": "healthtracking-75032",
+    "storage_bucket": "healthtracking-75032.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106280036764:android:040ecbc3a9c09916020059",
+        "android_client_info": {
+          "package_name": "com.example.health_care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106280036764-v3o2h8lk6aj4fmvmacigmj1gkgfqhjku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.health_care",
+            "certificate_hash": "3977f2c1ac33d3e0b0e597814e961782ef20e2da"
+          }
+        },
+        {
+          "client_id": "106280036764-liums1tiuut60mtih7c7p9qm2t3pivu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQdHuXm3sbxouQrTtoJaDNX5morFkDugU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106280036764-liums1tiuut60mtih7c7p9qm2t3pivu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

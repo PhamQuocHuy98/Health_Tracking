@@ -6,13 +6,14 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final double width;
   final double height;
-  CustomButton({
-    this.title='',
-    this.onTap,
-    this.color=Colors.blue,
-    this.width=300,
-    this.height=60,
-    });
+  final TextStyle style;
+  CustomButton(
+      {this.title = '',
+      this.onTap,
+      this.color = Colors.blue,
+      this.width = 300,
+      this.height = 60,
+      this.style});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +21,6 @@ class CustomButton extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: color,
-       
         borderRadius: BorderRadius.circular(
           20,
         ),
@@ -31,11 +31,15 @@ class CustomButton extends StatelessWidget {
           // make splash shape fit round button when tap,
           // if not specified, splash shape is rectangle instead of round
           borderRadius: BorderRadius.circular(
-           20,
+            20,
           ),
           highlightColor: Colors.transparent,
           onTap: onTap,
-          child: Center(child: Text(title)),
+          child: Center(
+              child: Text(
+            title,
+            style: style,
+          )),
         ),
       ),
     );
