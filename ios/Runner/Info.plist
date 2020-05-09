@@ -51,6 +51,32 @@
                 <string>com.googleusercontent.apps.106280036764-8hkdolopsvfblin0sk80rcift24b9ebs</string>
             </array>
         </dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1070398846694446</string>
+			</array>
+		</dict>
     </array>
+
+	<!-- FB -->
+	
+
+	<!-- Config LoginFB -->
+	
+    <key>FacebookAppID</key>
+    <string>1070398846694446</string>
+    <key>FacebookDisplayName</key>
+    <string>Login test</string>
+    
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+
+	<!-- End Config FB Login -->
 </dict>
 </plist>

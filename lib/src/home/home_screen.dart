@@ -2,7 +2,9 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:health_care/animation/delayanimation.dart';
+import 'package:health_care/authentication/facebook_auth.dart';
 import 'package:health_care/authentication/google_auth.dart';
+import 'package:health_care/src/dashboard/dashboard_screen.dart';
 import 'package:health_care/src/option/male_female_radio.dart';
 import 'package:health_care/utils/images.dart';
 import 'package:health_care/widget/button.dart';
@@ -56,11 +58,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           SizedBox(
             height: 30.0,
           ),
-          _buildButtonAnimation('Facebook', 800),
+          _buildButtonAnimation('Facebook', 800, () {
+            signinWithFacebook().whenComplete(() => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => DashBoardScreen())));
+          }),
           SizedBox(
             height: 15.0,
           ),
-          _buildButtonAnimation('Goole ', 1000),
+          _buildButtonAnimation('Google ', 1000, () {
+            signInWithGoogle().whenComplete(() => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => DashBoardScreen())));
+          }),
         ],
       ),
     );
@@ -70,7 +78,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Container(
       margin: EdgeInsets.only(top: 50),
       alignment: Alignment.center,
-      child: Image.asset(Images.bgHealth),
+      child: Image.asset(
+        Images.bgHealth,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
@@ -92,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  _buildButtonAnimation(String title, int delay) {
+  _buildButtonAnimation(String title, int delay, Function onTap) {
     Color color = title == 'Facebook' ? Colors.blueAccent : Colors.redAccent;
     return DelayedAnimtion(
       delayDuration: delayedAmount + delay,
@@ -107,9 +118,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        onTap: () async {
-          await signInWithGoogle();
-        },
+        onTap: onTap,
       ),
     );
   }
