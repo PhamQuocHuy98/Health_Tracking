@@ -1,0 +1,12 @@
+{
+    "token": "",
+    "name": "",
+    "weight": 65,
+    "height": 165,
+    "enableNoti": false,
+    "timeWakeup": "07:00",
+    "timeSleep": "23:00",
+    "timeNoti": "1",
+    "target": 1,
+    "isMale": true
+}
