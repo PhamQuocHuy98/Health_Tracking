@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:health_care/animation/delayanimation.dart';
 import 'package:health_care/authentication/facebook_auth.dart';
 import 'package:health_care/authentication/google_auth.dart';
+import 'package:health_care/base/bloc_base.dart';
+import 'package:health_care/base/user_preferences.dart';
 import 'package:health_care/src/dashboard/dashboard_screen.dart';
+import 'package:health_care/src/dashboard/setting/setting_bloc.dart';
 import 'package:health_care/src/option/male_female_radio.dart';
+import 'package:health_care/src/weight_info/weight_info_screen.dart';
 import 'package:health_care/utils/images.dart';
 import 'package:health_care/widget/button.dart';
 
@@ -28,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SettingBloc>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -66,8 +71,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             height: 15.0,
           ),
           _buildButtonAnimation('Google ', 1000, () {
-            signInWithGoogle().whenComplete(() => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => DashBoardScreen())));
+            signInWithGoogle().then((value) async {
+              bloc.user.token = value.providerId;
+              bloc.user.name = value.displayName;
+              await UserPreferences().setTokenUser(bloc.user.token);
+            }).whenComplete(() => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => MaleFemaleRadio())));
+            /* Navigator.push(
+                context, MaterialPageRoute(builder: (_) => MaleFemaleRadio()));*/
           }),
         ],
       ),

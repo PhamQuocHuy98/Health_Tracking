@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:health_care/animation/delayanimation.dart';
+import 'package:health_care/base/bloc_base.dart';
+import 'package:health_care/base/user_preferences.dart';
+import 'package:health_care/src/dashboard/setting/setting_bloc.dart';
 import 'package:health_care/src/weight_info/weight_info_screen.dart';
 import 'package:health_care/utils/images.dart';
 import 'package:health_care/widget/button.dart';
-
 
 class MaleFemaleRadio extends StatefulWidget {
   final Function onTabFemale;
@@ -18,12 +20,12 @@ class MaleFemaleRadio extends StatefulWidget {
 }
 
 class _MaleFemaleRadioState extends State<MaleFemaleRadio> {
-  
   int delayAnimation = 500;
-
+  SettingBloc _bloc;
   @override
   Widget build(BuildContext context) {
-   
+    _bloc = BlocProvider.of<SettingBloc>(context);
+    print(_bloc.user.name);
     return Scaffold(
         backgroundColor: Colors.blue,
         body: Padding(
@@ -64,8 +66,10 @@ class _MaleFemaleRadioState extends State<MaleFemaleRadio> {
                     SizedBox(
                       height: MediaQuery.of(context).viewPadding.top + 50,
                     ),
-                    _buildGender('Nam',Images.boywithbottle,delayAnimation+200),
-                    _buildGender('Nữ',Images.girlwithbottle,delayAnimation+500),
+                    _buildGender(
+                        'Nam', Images.boywithbottle, delayAnimation + 200),
+                    _buildGender(
+                        'Nữ', Images.girlwithbottle, delayAnimation + 500),
                   ],
                 ),
               ),
@@ -74,11 +78,11 @@ class _MaleFemaleRadioState extends State<MaleFemaleRadio> {
         ));
   }
 
-  Widget _buildGender(String title,String imgae,int delayAnimation){
+  Widget _buildGender(String title, String imgae, int delayAnimation) {
     return DelayedAnimtion(
       anioffsetX: -1.35,
       anioffsetY: 0.00,
-      delayDuration: delayAnimation ,
+      delayDuration: delayAnimation,
       aniDuration: 700,
       widget: Container(
         height: 320,
@@ -93,21 +97,32 @@ class _MaleFemaleRadioState extends State<MaleFemaleRadio> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: CustomButton(
-                width: 180,
-                color: Colors.white,
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=> WeightInfoScreen(
-                    imagePath: Images.manWeight,
-                  )));
-                },
-                title: title,
-              )
-            ),
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: CustomButton(
+                  width: 180,
+                  color: Colors.white,
+                  onTap: () {
+                    _bloc.user.isMale = title == "Nam" ? true : false;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => WeightInfoScreen(
+                          imagePath: Images.manWeight,
+                        ),
+                      ),
+                    );
+                    //UserPreferences().setUser(value);
+                  },
+                  title: title,
+                )),
           ],
         ),
       ),
     );
+  }
+
+  void jsonUserToString() {
+    //Map<String,dynamic> value;
+    // value['']
   }
 }

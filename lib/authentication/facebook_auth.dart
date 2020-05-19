@@ -9,6 +9,7 @@ Future<Null> signinWithFacebook() async {
   switch (result.status) {
     case FacebookLoginStatus.loggedIn:
       final FacebookAccessToken accessToken = result.accessToken;
+
       final credential = FacebookAuthProvider.getCredential(
         accessToken: accessToken.token,
       );

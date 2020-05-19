@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore:one_member_abstracts
 abstract class BlocBase {
   void dispose();
 }
@@ -11,29 +12,45 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
     @required this.bloc,
   }) : super(key: key);
 
-  final T bloc;
   final Widget child;
+  final T bloc;
 
   @override
   _BlocProviderState<T> createState() => _BlocProviderState<T>();
 
   static T of<T extends BlocBase>(BuildContext context) {
-   // final type = _typeOf<BlocProvider<T>>();
-    BlocProvider<T> provider = context.findAncestorWidgetOfExactType();
-    return provider.bloc;
+    final _BlocProviderInherited<T> provider = context
+        .getElementForInheritedWidgetOfExactType<_BlocProviderInherited<T>>()
+        .widget;
+    return provider?.bloc;
   }
-
 }
 
-class _BlocProviderState<T> extends State<BlocProvider<BlocBase>> {
+class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>> {
   @override
   void dispose() {
-    widget.bloc.dispose();
+    widget.bloc?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return _BlocProviderInherited<T>(
+      bloc: widget.bloc,
+      child: widget.child,
+    );
   }
+}
+
+class _BlocProviderInherited<T> extends InheritedWidget {
+  _BlocProviderInherited({
+    Key key,
+    @required Widget child,
+    @required this.bloc,
+  }) : super(key: key, child: child);
+
+  final T bloc;
+
+  @override
+  bool updateShouldNotify(_BlocProviderInherited oldWidget) => true;
 }

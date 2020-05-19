@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:health_care/animation/delayanimation.dart';
+import 'package:health_care/base/bloc_base.dart';
+import 'package:health_care/src/dashboard/setting/setting_bloc.dart';
 import 'package:health_care/src/option/wake_up_info_screen.dart';
 import 'package:health_care/utils/images.dart';
 import 'package:health_care/widget/button.dart';
 import 'package:numberpicker/numberpicker.dart';
-
 
 class WeightInfoScreen extends StatefulWidget {
   final String imagePath;
@@ -20,10 +21,8 @@ class WeightInfoScreen extends StatefulWidget {
 }
 
 class _WeightInfoState extends State<WeightInfoScreen> {
- 
   int delayAnimation = 500;
- int current_value =50;
-  
+  int current_value = 50;
 
   @override
   void initState() {
@@ -32,7 +31,8 @@ class _WeightInfoState extends State<WeightInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    final bloc = BlocProvider.of<SettingBloc>(context);
+    print(bloc.user.isMale);
     return Scaffold(
       backgroundColor: Colors.blue,
       body: Padding(
@@ -85,10 +85,13 @@ class _WeightInfoState extends State<WeightInfoScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text('Đơn vị Kg',style: TextStyle(
-                        color:Colors.white,
-                        fontSize:20,
-                      ),),
+                      Text(
+                        'Đơn vị Kg',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
                       Center(
                         child: Container(
                           child: DelayedAnimtion(
@@ -98,27 +101,27 @@ class _WeightInfoState extends State<WeightInfoScreen> {
                             aniDuration: 700,
                             widget: Theme(
                               data: Theme.of(context).copyWith(
-                              accentColor: Colors.white,
+                                accentColor: Colors.white,
                               ),
                               child: NumberPicker.horizontal(
                                 initialValue: current_value,
                                 itemExtent: 70,
                                 minValue: 10,
                                 maxValue: 300,
-                                onChanged: (vl){
-                                  if(current_value<10 || current_value>300){
+                                onChanged: (vl) {
+                                  if (current_value < 10 ||
+                                      current_value > 300) {
                                     return;
                                   }
                                   setState(() {
-                                    current_value=vl;
+                                    current_value = vl;
                                   });
+                                  bloc.user.weight = current_value;
                                 },
                               ),
-                           ),
-
+                            ),
                           ),
                         ),
-                      
                       ),
                       SizedBox(
                         height: 30,
@@ -135,11 +138,13 @@ class _WeightInfoState extends State<WeightInfoScreen> {
                             height: 60,
                             title: 'Tiếp tục',
                             color: Colors.white,
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (_)=> WakeUpInfo(
-                                imagePath: Images.clock,
-                                
-                              )));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => WakeUpInfo(
+                                            imagePath: Images.clock,
+                                          )));
                             },
                           ),
                         ),
@@ -148,7 +153,6 @@ class _WeightInfoState extends State<WeightInfoScreen> {
                   ),
                 ),
               ),
-             
             ],
           ),
         ),
@@ -156,8 +160,5 @@ class _WeightInfoState extends State<WeightInfoScreen> {
     );
   }
 
-
-  Future<Null> setWeightValue() async {
-   
-  }
+  Future<Null> setWeightValue() async {}
 }

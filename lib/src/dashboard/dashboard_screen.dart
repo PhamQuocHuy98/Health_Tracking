@@ -1,31 +1,27 @@
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:health_care/src/dashboard/setting/setting_screen.dart';
-import 'package:health_care/src/dashboard/water/water_model.dart';
 import 'package:health_care/src/dashboard/water/water_screen.dart';
 
-import 'package:hive/hive.dart';
 class DashBoardScreen extends StatefulWidget {
   @override
   _DashBoardScreenState createState() => _DashBoardScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen>  with AutomaticKeepAliveClientMixin{
-  
-
+class _DashBoardScreenState extends State<DashBoardScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
-  void initState()  { 
+  void initState() {
     super.initState();
-  
   }
+
   int index = 0;
 
   List<Widget> listScreen = [
     WaterScreen(),
     SettingScreen(),
   ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,12 +36,11 @@ class _DashBoardScreenState extends State<DashBoardScreen>  with AutomaticKeepAl
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-             Icons.home,
+              Icons.home,
               color: index == 0 ? Colors.blue : Colors.black,
             ),
             title: Text(
               'Nước',
-              
             ),
           ),
           BottomNavigationBarItem(
@@ -55,7 +50,6 @@ class _DashBoardScreenState extends State<DashBoardScreen>  with AutomaticKeepAl
             ),
             title: Text(
               'Cài đặt',
-              
             ),
           ),
         ],
@@ -65,6 +59,5 @@ class _DashBoardScreenState extends State<DashBoardScreen>  with AutomaticKeepAl
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

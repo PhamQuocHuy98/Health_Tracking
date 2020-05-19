@@ -3,7 +3,9 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_care/animation/delayanimation.dart';
+import 'package:health_care/base/bloc_base.dart';
 import 'package:health_care/src/dashboard/dashboard_screen.dart';
+import 'package:health_care/src/dashboard/setting/setting_bloc.dart';
 import 'package:health_care/src/dashboard/setting/setting_model.dart';
 import 'package:health_care/utils/images.dart';
 import 'package:health_care/widget/button.dart';
@@ -15,30 +17,31 @@ class DoneNotifiScreen extends StatefulWidget {
 }
 
 class _DoneNotifiScreenState extends State<DoneNotifiScreen> {
-  int delayedAmount=500;
-  bool valueSwitch =false;
+  int delayedAmount = 500;
+  bool valueSwitch = false;
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SettingBloc>(context);
     return Scaffold(
       backgroundColor: Colors.blue,
       body: Container(
-          child: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height:100),
+            SizedBox(height: 100),
             DelayedAnimtion(
               delayDuration: delayedAmount + 200,
               anioffsetX: 0.0,
               anioffsetY: 0.35,
               aniDuration: 700,
-                widget: AvatarGlow(
+              widget: AvatarGlow(
                 endRadius: 200,
                 duration: Duration(milliseconds: 1500),
                 glowColor: Colors.black,
                 repeat: true,
                 repeatPauseDuration: Duration(milliseconds: 1500),
-                startDelay: Duration(seconds: 1),  
+                startDelay: Duration(seconds: 1),
                 child: FlareActor(
                   Images.flareNoti,
                   animation: "Play",
@@ -49,36 +52,38 @@ class _DoneNotifiScreenState extends State<DoneNotifiScreen> {
               ),
             ),
             DelayedAnimtion(
-              widget: Text('Cho phép nhận thông báo',style: TextStyle(
-                color:Colors.white,
-                fontSize: 20,
-              ),),
+              widget: Text(
+                'Cho phép nhận thông báo',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
               delayDuration: delayedAmount + 400,
               anioffsetX: 0.0,
               anioffsetY: 0.35,
               aniDuration: 700,
             ),
-            SizedBox(height:30),
+            SizedBox(height: 30),
             DelayedAnimtion(
-            delayDuration: delayedAmount + 600,
-            anioffsetX: 0.0,
-            anioffsetY: 0.35,
-            aniDuration: 700,
-                widget: Transform.scale(
+              delayDuration: delayedAmount + 600,
+              anioffsetX: 0.0,
+              anioffsetY: 0.35,
+              aniDuration: 700,
+              widget: Transform.scale(
                 scale: 1.5,
                 child: CupertinoSwitch(
-                  value: valueSwitch, 
-                  onChanged: (vl){
+                  value: valueSwitch,
+                  onChanged: (vl) {
                     setState(() {
-                      valueSwitch=vl;
+                      valueSwitch = vl;
                     });
                   },
                   activeColor: Colors.red,
-                  
                 ),
               ),
             ),
-            SizedBox(height:30),
+            SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: DelayedAnimtion(
@@ -91,15 +96,11 @@ class _DoneNotifiScreenState extends State<DoneNotifiScreen> {
                   height: 60,
                   title: 'Xong',
                   color: Colors.white,
-                  onTap: (){
-                    var box = Hive.box<SettingModel>('dbSetting');
-                    SettingModel setting;
-                    setting=box.getAt(0);
-                    setting.acceptNoti=valueSwitch;
-                    Hive.box<SettingModel>('dbSetting')..putAt(0,setting);
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> DashBoardScreen(
-
-                    )));
+                  onTap: () {
+                    bloc.user.enableNoti = valueSwitch;
+                    bloc.saveUserToPref();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => DashBoardScreen()));
                   },
                 ),
               ),

@@ -2,18 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health_care/animation/delayanimation.dart';
+import 'package:health_care/base/bloc_base.dart';
+import 'package:health_care/src/dashboard/setting/setting_bloc.dart';
 import 'package:health_care/src/dashboard/setting/setting_model.dart';
 import 'package:health_care/src/option/done_screen.dart';
 import 'package:health_care/widget/button.dart';
 import 'package:hive/hive.dart';
+
 class WakeUpInfo extends StatefulWidget {
-  
   final Function next;
   final String imagePath;
   static DateTime time;
 
-  const WakeUpInfo({Key key, this.next, this.imagePath})
-      : super(key: key);
+  const WakeUpInfo({Key key, this.next, this.imagePath}) : super(key: key);
   @override
   _WakeUpInfoState createState() => _WakeUpInfoState();
 }
@@ -22,8 +23,11 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
   int delayAnimation = 500;
   DateTime timeWakeup = DateTime.parse('20200600 06:30:00Z');
   DateTime timeSleep = DateTime.parse('20200600 23:30:00Z');
+
+  SettingBloc bloc;
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<SettingBloc>(context);
     return Scaffold(
       backgroundColor: Colors.blue,
       body: Padding(
@@ -62,7 +66,10 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
                 anioffsetX: 0.00,
                 delayDuration: delayAnimation + 200,
                 aniDuration: 700,
-                widget: Image.asset(widget.imagePath,height: 300,),
+                widget: Image.asset(
+                  widget.imagePath,
+                  height: 300,
+                ),
               ),
               DelayedAnimtion(
                 anioffsetY: 1.00,
@@ -70,68 +77,64 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
                 delayDuration: delayAnimation + 500,
                 aniDuration: 700,
                 widget: Container(
-                  margin: EdgeInsets.only(top:30),
+                  margin: EdgeInsets.only(top: 30),
                   child: Text(
                     'Thức dậy & Đi ngủ',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "muli",
-                      fontSize: 17
-                    ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "muli",
+                        fontSize: 17),
                   ),
                 ),
               ),
-              SizedBox(height:40),
+              SizedBox(height: 40),
               DelayedAnimtion(
                 anioffsetY: 1.00,
                 anioffsetX: 0.00,
                 delayDuration: delayAnimation + 800,
                 aniDuration: 700,
-                  widget: Row(
+                widget: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
-                      child:_buildText(timeWakeup.hour.toString()+":"+timeWakeup.minute.toString()+" AM"),
-                      onTap: (){ 
+                      child: _buildText(timeWakeup.hour.toString() +
+                          ":" +
+                          timeWakeup.minute.toString() +
+                          " AM"),
+                      onTap: () {
                         DatePicker.showTime12hPicker(context,
-                          showTitleActions: true,
-                          onChanged: (time){
-                            setState(() {
-                              timeWakeup=time;
-                            });
-                          },
-                          onConfirm: (time) {
-                            setState(() {
-                              timeWakeup=time;
-                            });
-                          }, 
-                          currentTime: timeWakeup, 
-                          locale: LocaleType.vi);
+                            showTitleActions: true, onChanged: (time) {
+                          setState(() {
+                            timeWakeup = time;
+                          });
+                        }, onConfirm: (time) {
+                          setState(() {
+                            timeWakeup = time;
+                          });
+                        }, currentTime: timeWakeup, locale: LocaleType.vi);
                       },
                     ),
                     _buildText(' - '),
                     InkWell(
-                      child:_buildText(timeSleep.hour.toString()+":"+timeWakeup.minute.toString()+" PM"),
-                      onTap: (){ 
+                      child: _buildText(timeSleep.hour.toString() +
+                          ":" +
+                          timeWakeup.minute.toString() +
+                          " PM"),
+                      onTap: () {
                         DatePicker.showTime12hPicker(context,
-                          showTitleActions: true,
-                          onChanged: (time){
-                            setState(() {
-                              timeSleep=time;
-                            });
-                          },
-                          onConfirm: (time) {
-                            setState(() {
-                              timeSleep=time;
-                            });
-                          }, 
-                          currentTime: timeSleep, 
-                          locale: LocaleType.vi);
+                            showTitleActions: true, onChanged: (time) {
+                          setState(() {
+                            timeSleep = time;
+                          });
+                        }, onConfirm: (time) {
+                          setState(() {
+                            timeSleep = time;
+                          });
+                        }, currentTime: timeSleep, locale: LocaleType.vi);
                       },
                     ),
-                    
                   ],
                 ),
               ),
@@ -150,17 +153,15 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
                     height: 60,
                     title: 'Tiếp tục',
                     color: Colors.white,
-                    onTap: (){
-                      SettingModel setting = 
-                      SettingModel(
-                        false, 
-                        false, 
-                        timeWakeup.hour.toString()+":"+timeWakeup.minute.toString(), 
-                        timeSleep.hour.toString()+":"+timeWakeup.minute.toString(),
-                        3000
+                    onTap: () {
+                      bloc.user.timeWakeup = timeWakeup.toString();
+                      bloc.user.timeSleep = timeSleep.toString();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DoneNotifiScreen(),
+                        ),
                       );
-                      Hive.box<SettingModel>('dbSetting')..add(setting);
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>DoneNotifiScreen()));
                     },
                   ),
                 ),
@@ -172,11 +173,11 @@ class _WakeUpInfoState extends State<WakeUpInfo> {
     );
   }
 
-  _buildText(String text){
+  _buildText(String text) {
     return Text(
-      text??'',
+      text ?? '',
       style: TextStyle(
-      color: Colors.white,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
         fontFamily: "muli",
         fontSize: 27,

@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:health_care/src/dashboard/dashboard_screen.dart';
+import 'package:health_care/base/bloc_base.dart';
+import 'package:health_care/src/dashboard/setting/setting_bloc.dart';
 import 'package:health_care/src/dashboard/setting/setting_model.dart';
 
 import 'package:health_care/src/dashboard/water/water_model.dart';
@@ -35,10 +36,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-      theme: ThemeData.light(),
+    return BlocProvider<SettingBloc>(
+      bloc: SettingBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+
+        /* home: BlocProvider<SettingBloc>(
+          child:  SplashScreen(),
+          bloc:  SettingBloc(),
+        ),*/
+        home: SplashScreen(),
+        theme: ThemeData.light(),
+      ),
     );
   }
 }
